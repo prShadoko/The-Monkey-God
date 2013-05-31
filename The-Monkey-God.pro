@@ -1,17 +1,22 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2013-05-27T16:40:43
+# Project created by QtCreator 2013-05-27T17:33:26
 #
 #-------------------------------------------------
 
 QT       += core gui
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = The-Monkey-God
 TEMPLATE = app
 
 
-SOURCES += ./src/*.cpp
+SOURCES += main.cpp\
+        mainwindow.cpp \
+    model/treenode.cpp
 
-HEADERS  += ./src/*.h
+HEADERS  += mainwindow.h \
+    model/treenode.h
 
-FORMS    += ./src/*.ui
+FORMS    += mainwindow.ui
