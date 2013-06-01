@@ -14,11 +14,11 @@ TEMPLATE = app
 
 SOURCES		+=	main.cpp\
 				mainwindow.cpp \
-				model/treenode.cpp \
-    model/matrix.cpp
+				model/matrix.cpp \
+				model/solver.cpp
 
 HEADERS		+=	mainwindow.h \
-				model/treenode.h \
-    model/matrix.h
+				model/matrix.h \
+				model/solver.h
 
-FORMS    += mainwindow.ui
+FORMS		+=	mainwindow.ui

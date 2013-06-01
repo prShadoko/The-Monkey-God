@@ -2,22 +2,22 @@
 
 Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 	_dimension(dimension),
-	_cells(new qint8[dimension*dimension]),
+	_cells(new CellId[dimension*dimension]),
 	_rotationSize(rotationSize)
 {
-	for(qint32 cell=0; cell<dimension*dimension; ++cell)
+	for(CellId cell=0; cell<dimension*dimension; ++cell)
 	{
 		_cells[cell] = cell;
 	}
 }
 
-Matrix::Matrix(Matrix const * const matrix, qint8 const topLeftCell, Direction const direction) :
+Matrix::Matrix(Matrix const * const matrix, CellId const topLeftCell, Direction const direction) :
 	_dimension(matrix->dimension()),
-	_cells(new qint8[dimension*dimension]),
+	_cells(new CellId[dimension*dimension]),
 	_rotationSize(matrix->rotationSize)
 {
-	qint8 * cells = matrix->cells();
-	for(qint8 cell=0; cell<dimension*dimension; ++cell)
+	CellId * cells = matrix->getCells();
+	for(CellId cell=0; cell<dimension*dimension; ++cell)
 	{
 		_cells[cell] = cells[cell];
 	}
@@ -27,15 +27,26 @@ Matrix::Matrix(Matrix const * const matrix, qint8 const topLeftCell, Direction c
 Matrix::~Matrix()
 {
 	delete[] _cells;
-	delete[] _rotations;
+	Matrix * del;
+	foreach(del, _children)
+	{
+		delete del;
+	}
 }
 
-void Matrix::rotate(qint8 const topLeftCell, Direction const direction)
+/*
+?? const Matrix::hash()
+{
+	TODO
+}
+//*/
+
+void Matrix::rotate(CellId const topLeftCell, Direction const direction)
 {
 	qint8 increment[4] = {1, _dimension, -1, -_dimension};
-	qint8 tmp = _cells[topLeftCell];
-	qint8 previousCell;
-	qint8 cell = topLeftCell;
+	CellId tmp = _cells[topLeftCell];
+	CellId previousCell;
+	CellId cell = topLeftCell;
 
 	switch(direction){
 		case CW:
@@ -63,6 +74,4 @@ void Matrix::rotate(qint8 const topLeftCell, Direction const direction)
 			_cells[previousCell] = tmp;
 			break;
 	}
-
-
 }
