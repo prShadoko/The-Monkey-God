@@ -1,33 +1,26 @@
 #ifndef TREENODE_H
 #define TREENODE_H
 
-#include <vector>
+#include <QList>
 
-template <typename N>
+template<class N>
 class TreeNode
 {
 public:
-    // --- Constructor & destructor --- //
-    TreeNode(TreeNode * parent, N * node);
-    ~TreeNode(); //Do not destruct parent and children's node
+	// --- Constructor & destructor --- //
+	TreeNode(TreeNode * parent, N * node);
+	~TreeNode(); //Do not destruct parent and children nodes
 
-    // --- Methods --- //
-    void addChild(TreeNode * child);
-
-    // --- Accessors --- //
-    void setChildren(std::vector<*TreeNode> children);
-    const std::vector<*TreeNode> getChildren();
-
-    void setParent(TreeNode * parent);
-    const TreeNode * getParent();
-
-    void setNode(N * node);
-    const N * getNode();
+	// --- Accessors --- //
+	inline void						addChild(TreeNode * child)	{ _children.append(child); }
+	inline QList<TreeNode *> const	getChildren()				{ return _children; }
+	inline TreeNode const *			getParent()					{ return _parent; }
+	inline N const *				getNode()					{ return _node; }
 
 private:
-    N * _node;
-    TreeNode * _parent;
-    std::vector<*TreeNode > _children;
+	N *					_node;
+	TreeNode *			_parent;
+	QList<TreeNode *>	_children;
 };
 
 #endif // TREENODE_H
