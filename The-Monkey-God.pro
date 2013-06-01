@@ -12,11 +12,13 @@ TARGET = The-Monkey-God
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    model/treenode.cpp
+SOURCES		+=	main.cpp\
+				mainwindow.cpp \
+				model/treenode.cpp \
+    model/matrix.cpp
 
-HEADERS  += mainwindow.h \
-    model/treenode.h
+HEADERS		+=	mainwindow.h \
+				model/treenode.h \
+    model/matrix.h
 
 FORMS    += mainwindow.ui
