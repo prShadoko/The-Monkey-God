@@ -4,27 +4,28 @@
 #include <QMap>
 #include <QPair>
 
+enum Direction {CW = 1, CCW = -1};
+
 typedef qint8 CellId; // For semantic
-typedef QPair<CellId, Matrix::Direction> Rotation; // For shortness
+typedef QPair<CellId, Direction> Rotation; // For shortness
 
 class Matrix
 {
 	public:
-		enum Direction {CW = 1, CCW = -1};
-
 		//--- Constructor & destructor ---//
 		Matrix(qint8 const dimension, qint8 const rotationSize = 2);
 		Matrix(Matrix const * const matrix, CellId const topLeftCell, Direction const direction);
+		~Matrix();
 
 		//--- Accessors ---//
-		inline qint8 const						getDimension()				{ return _dimension; }
-		inline qint8 const						getRotationSize()			{ return _rotationSize; }
-		inline CellId const *					getCells()					{ return _cells; }
-		inline Matrix const *					getParent()					{ return _parent; }
-		inline QMap<Rotation, Matrix *> const	getChildren()				{ return _children; }
+		inline qint8					getDimension()				const { return _dimension; }
+		inline qint8					getRotationSize()			const { return _rotationSize; }
+		inline CellId const *			getCells()					const { return _cells; }
+		inline Matrix const *			getParent()					const { return _parent; }
+		inline QMap<Rotation, Matrix *>	getChildren()				const { return _children; }
 
-		inline void								setParent(Matrix * parent)	{ _parent = parent; }
-		inline void								addChild(Rotation r, Matrix * child)	{
+		inline void						setParent(Matrix * parent)	{ _parent = parent; }
+		inline void						addChild(Rotation r, Matrix * child)	{
 			_children.insert(r, child);
 			child->setParent(this);
 		}

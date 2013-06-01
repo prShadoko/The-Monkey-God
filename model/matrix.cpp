@@ -1,9 +1,10 @@
 #include "matrix.h"
+#include <iostream>
 
 Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 	_dimension(dimension),
-	_cells(new CellId[dimension*dimension]),
-	_rotationSize(rotationSize)
+	_rotationSize(rotationSize),
+	_cells(new CellId[dimension*dimension])
 {
 	for(CellId cell=0; cell<dimension*dimension; ++cell)
 	{
@@ -12,12 +13,12 @@ Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 }
 
 Matrix::Matrix(Matrix const * const matrix, CellId const topLeftCell, Direction const direction) :
-	_dimension(matrix->dimension()),
-	_cells(new CellId[dimension*dimension]),
-	_rotationSize(matrix->rotationSize)
+	_dimension(matrix->getDimension()),
+	_rotationSize(matrix->getRotationSize()),
+	_cells(new CellId[matrix->getDimension() * matrix->getDimension()])
 {
-	CellId * cells = matrix->getCells();
-	for(CellId cell=0; cell<dimension*dimension; ++cell)
+	CellId const * cells = matrix->getCells();
+	for(CellId cell=0; cell<matrix->getDimension()*matrix->getDimension(); ++cell)
 	{
 		_cells[cell] = cells[cell];
 	}
@@ -26,7 +27,7 @@ Matrix::Matrix(Matrix const * const matrix, CellId const topLeftCell, Direction 
 
 Matrix::~Matrix()
 {
-	delete[] _cells;
+//	delete[] _cells;
 	Matrix * del;
 	foreach(del, _children)
 	{
@@ -43,7 +44,7 @@ Matrix::~Matrix()
 
 void Matrix::rotate(CellId const topLeftCell, Direction const direction)
 {
-	qint8 increment[4] = {1, _dimension, -1, -_dimension};
+	qint8 increment[4] = {static_cast<qint8>(1), static_cast<qint8>(_dimension), static_cast<qint8>(-1), static_cast<qint8>(-_dimension)};
 	CellId tmp = _cells[topLeftCell];
 	CellId previousCell;
 	CellId cell = topLeftCell;
@@ -55,7 +56,7 @@ void Matrix::rotate(CellId const topLeftCell, Direction const direction)
 				for(qint8 j=1; j<_rotationSize; ++j)
 				{
 					previousCell = cell;
-					cell += increment[i];
+					cell -= increment[i];
 					_cells[previousCell] = cell;
 				}
 			}

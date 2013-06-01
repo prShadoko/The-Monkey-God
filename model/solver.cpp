@@ -16,7 +16,7 @@ void Solver::buildTree()
 	queue.enqueue(_tree);
 	Matrix * matrix = NULL;
 	Matrix * child = NULL;
-	qint8 n = _tree->getDimension() - _tree.getRotationSize() + const_cast<qint8>(1);
+	qint8 n = _tree->getDimension() - _tree->getRotationSize() + static_cast<qint8>(1);
 
 	while(!queue.isEmpty())
 	{
@@ -26,14 +26,14 @@ void Solver::buildTree()
 			for(qint8 j=0; j<n; ++j)
 			{
 				CellId topLeftCell = j + i * matrix->getDimension();
-				child = new Matrix(matrix, topLeftCell, Matrix::CW);
+				child = new Matrix(matrix, topLeftCell, CW);
 				//TODO: check whether the matrix already exists or not
-				matrix->addChild(child);
+				matrix->addChild(Rotation(topLeftCell, CW), child);
 				queue.enqueue(child);
 
-				child = new Matrix(matrix, topLeftCell, Matrix::CCW);
+				child = new Matrix(matrix, topLeftCell, CCW);
 				//TODO: check whether the matrix already exists or not
-				matrix->addChild(child);
+				matrix->addChild(Rotation(topLeftCell, CW), child);
 				queue.enqueue(child);
 			}
 		}

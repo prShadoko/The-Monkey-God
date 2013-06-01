@@ -2,7 +2,7 @@
 #define SOLVER_H
 
 #include <QQueue>
-#include <matrix.h>
+#include <model/matrix.h>
 
 class Solver
 {
