@@ -91,7 +91,7 @@ void Matrix::hash()
 void Matrix::debug() const
 {
 	qDebug() << _hash;
-	for(CellId c; c<_dimension*_dimension; ++c)
+	for(CellId c=0; c<_dimension*_dimension; ++c)
 	{
 		qDebug() << _cells[c];
 	}

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QProgressBar>
 #include <QThread>
 #include <model/solver.h>
 
@@ -24,7 +25,7 @@ class MainWindow : public QMainWindow
 	private:
 		Ui::MainWindow *	_ui;
 		Solver *			_solver;
-		QThread	*			_thread;
+		QProgressBar *		_progressBar;
 };
 
 #endif // MAINWINDOW_H

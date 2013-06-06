@@ -14,11 +14,11 @@ TEMPLATE = app
 
 SOURCES		+=	main.cpp\
 				model/matrix.cpp \
-				model/solver.cpp \
-				view/mainwindow.cpp
+				view/mainwindow.cpp \
+    model/solver.cpp
 
 HEADERS		+=	model/matrix.h \
-				model/solver.h \
-				view/mainwindow.h
+				view/mainwindow.h \
+    model/solver.h
 
 FORMS		+=	view/mainwindow.ui

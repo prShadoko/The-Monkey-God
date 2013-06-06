@@ -1,7 +1,7 @@
 #include "solver.h"
 
 Solver::Solver(qint8 const dimension, qint8 const rotationSize) :
-	QObject(NULL),
+	QThread(NULL),
 	_tree(new Matrix(dimension, rotationSize))
 {
 }
@@ -11,8 +11,9 @@ Solver::~Solver()
 	delete _tree;
 }
 
-void Solver::buildTree()
+void Solver::run()
 {
+	quint32 step = 0;
 	QQueue<Matrix *> queue;
 	queue.enqueue(_tree);
 	Matrix * matrix = NULL;
@@ -24,8 +25,10 @@ void Solver::buildTree()
 		matrix = queue.dequeue();
 		if(!_explored.contains(matrix->getHash()))
 		{
-			qDebug() << "matrix";
-			matrix->debug();
+			++step;
+			emit progress(step);
+//			qDebug() << "matrix";
+//			matrix->debug();
 			_explored.insert(matrix->getHash(), matrix);
 			for(qint8 i=0; i<n; ++i)
 			{
@@ -34,29 +37,24 @@ void Solver::buildTree()
 					CellId topLeftCell = j + i * matrix->getDimension();
 					Rotation rotation(topLeftCell, CW);
 					child = new Matrix(matrix, rotation);
-					//				bool b1 = _explored.contains(child->getHash()), b2 = queue.contains(child);
-					//				qDebug() << b1 << b2;
-					if(!_explored.contains(child->getHash()) && !queue.contains(child))
+					if(!_explored.contains(child->getHash()))
 					{
 						matrix->addChild(rotation, child);
 						queue.enqueue(child);
 
-						qDebug() << "child CW";
-						child->debug();
+//						qDebug() << "child CW";
+//						child->debug();
 					}
 
 					rotation = Rotation(topLeftCell, CCW);
 					child = new Matrix(matrix, rotation);
-					//				b1 = _explored.contains(child->getHash());
-					//				b2 = queue.contains(child);
-					//				qDebug() << b1 << b2;
-					if(!_explored.contains(child->getHash()) && !queue.contains(child))
+					if(!_explored.contains(child->getHash()))
 					{
 						matrix->addChild(rotation, child);
 						queue.enqueue(child);
 
-						qDebug() << "child CCW";
-						child->debug();
+//						qDebug() << "child CCW";
+//						child->debug();
 					}
 				}
 			}
