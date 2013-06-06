@@ -35,4 +35,5 @@ void MainWindow::buildTreeFinished()
 	_progressBar->setVisible(false);
 	_ui->pushButton_buildTree->setEnabled(true);
 	_ui->statusbar->showMessage(tr("Building tree finished"));
+	_ui->pushButton_resolve->setEnabled(true);
 }
