@@ -25,8 +25,6 @@ void MainWindow::on_spinBox_matrixSize_valueChanged(int value)
 void MainWindow::on_pushButton_buildTree_clicked()
 {
 	_ui->pushButton_buildTree->setEnabled(false);
-
-//	_solver = new Solver(_ui->spinBox_matrixSize->value(), _ui->spinBox_rotationSize->value());
 	_solver = new Solver(2, 2);
 	connect(_thread, SIGNAL(started()), _solver, SLOT(buildTree()));
 	connect(_thread, SIGNAL(finished()), _solver, SLOT(deleteLater()));
