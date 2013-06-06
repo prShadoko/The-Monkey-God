@@ -1,5 +1,4 @@
 #include "matrix.h"
-#include <iostream>
 
 Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 	_dimension(dimension),
@@ -10,9 +9,10 @@ Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 	{
 		_cells[cell] = cell;
 	}
+	hash();
 }
 
-Matrix::Matrix(Matrix const * const matrix, CellId const topLeftCell, Direction const direction) :
+Matrix::Matrix(Matrix const * const matrix, Rotation rotation) :
 	_dimension(matrix->getDimension()),
 	_rotationSize(matrix->getRotationSize()),
 	_cells(new CellId[matrix->getDimension() * matrix->getDimension()])
@@ -22,7 +22,8 @@ Matrix::Matrix(Matrix const * const matrix, CellId const topLeftCell, Direction 
 	{
 		_cells[cell] = cells[cell];
 	}
-	rotate(topLeftCell, direction);
+	rotate(rotation);
+	hash();
 }
 
 Matrix::~Matrix()
@@ -35,15 +36,15 @@ Matrix::~Matrix()
 	}
 }
 
-/*
-?? const Matrix::hash()
+bool Matrix::operator==(Matrix const & other) const
 {
-	TODO
+	return other.getHash() == _hash;
 }
-//*/
 
-void Matrix::rotate(CellId const topLeftCell, Direction const direction)
+void Matrix::rotate(Rotation rotation)
 {
+	CellId topLeftCell = rotation.first;
+	Direction direction = rotation.second;
 	qint8 increment[4] = {static_cast<qint8>(1), static_cast<qint8>(_dimension), static_cast<qint8>(-1), static_cast<qint8>(-_dimension)};
 	CellId tmp = _cells[topLeftCell];
 	CellId previousCell;
@@ -57,7 +58,7 @@ void Matrix::rotate(CellId const topLeftCell, Direction const direction)
 				{
 					previousCell = cell;
 					cell -= increment[i];
-					_cells[previousCell] = cell;
+					_cells[previousCell] = _cells[cell];
 				}
 			}
 			_cells[previousCell] = tmp;
@@ -69,10 +70,29 @@ void Matrix::rotate(CellId const topLeftCell, Direction const direction)
 				{
 					previousCell = cell;
 					cell += increment[i];
-					_cells[previousCell] = cell;
+					_cells[previousCell] = _cells[cell];
 				}
 			}
 			_cells[previousCell] = tmp;
 			break;
+	}
+}
+
+void Matrix::hash()
+{ // Max value = 50625 --> 16 bits
+	_hash = 0;
+	qint8 n = _dimension * _dimension;
+	for(CellId i=0; i<n; ++i)
+	{
+		_hash += qPow(n, i) * _cells[i];
+	}
+}
+
+void Matrix::debug() const
+{
+	qDebug() << _hash;
+	for(CellId c; c<_dimension*_dimension; ++c)
+	{
+		qDebug() << _cells[c];
 	}
 }

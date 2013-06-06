@@ -1,6 +1,7 @@
 #include "solver.h"
 
 Solver::Solver(qint8 const dimension, qint8 const rotationSize) :
+	QObject(NULL),
 	_tree(new Matrix(dimension, rotationSize))
 {
 }
@@ -21,20 +22,43 @@ void Solver::buildTree()
 	while(!queue.isEmpty())
 	{
 		matrix = queue.dequeue();
-		for(qint8 i=0; i<n; ++i)
+		if(!_explored.contains(matrix->getHash()))
 		{
-			for(qint8 j=0; j<n; ++j)
+			qDebug() << "matrix";
+			matrix->debug();
+			_explored.insert(matrix->getHash(), matrix);
+			for(qint8 i=0; i<n; ++i)
 			{
-				CellId topLeftCell = j + i * matrix->getDimension();
-				child = new Matrix(matrix, topLeftCell, CW);
-				//TODO: check whether the matrix already exists or not
-				matrix->addChild(Rotation(topLeftCell, CW), child);
-				queue.enqueue(child);
+				for(qint8 j=0; j<n; ++j)
+				{
+					CellId topLeftCell = j + i * matrix->getDimension();
+					Rotation rotation(topLeftCell, CW);
+					child = new Matrix(matrix, rotation);
+					//				bool b1 = _explored.contains(child->getHash()), b2 = queue.contains(child);
+					//				qDebug() << b1 << b2;
+					if(!_explored.contains(child->getHash()) && !queue.contains(child))
+					{
+						matrix->addChild(rotation, child);
+						queue.enqueue(child);
 
-				child = new Matrix(matrix, topLeftCell, CCW);
-				//TODO: check whether the matrix already exists or not
-				matrix->addChild(Rotation(topLeftCell, CW), child);
-				queue.enqueue(child);
+						qDebug() << "child CW";
+						child->debug();
+					}
+
+					rotation = Rotation(topLeftCell, CCW);
+					child = new Matrix(matrix, rotation);
+					//				b1 = _explored.contains(child->getHash());
+					//				b2 = queue.contains(child);
+					//				qDebug() << b1 << b2;
+					if(!_explored.contains(child->getHash()) && !queue.contains(child))
+					{
+						matrix->addChild(rotation, child);
+						queue.enqueue(child);
+
+						qDebug() << "child CCW";
+						child->debug();
+					}
+				}
 			}
 		}
 	}
