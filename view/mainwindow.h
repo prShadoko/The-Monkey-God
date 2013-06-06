@@ -18,7 +18,6 @@ class MainWindow : public QMainWindow
 		~MainWindow();
 
 	private slots:
-		void on_spinBox_matrixSize_valueChanged(int value);
 		void on_pushButton_buildTree_clicked();
 		void buildTreeFinished();
 
