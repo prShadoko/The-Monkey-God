@@ -1,8 +1,10 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
-#include <QThread>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QQueue>
+#include <QThread>
 #include <model/matrix.h>
 
 #include <QtDebug>
@@ -19,7 +21,17 @@ class Solver : public QThread
 		~Solver();
 
 		//--- Accessors ---//
-		inline Matrix const * getTree() const { return _tree; }
+		inline Matrix const *	getTree() const { return _tree; }
+		inline bool				isAborted() {
+			QMutexLocker locker(_mutex);
+			return _aborted;
+		}
+
+	public slots:
+		inline void abort() {
+			QMutexLocker locker(_mutex);
+			_aborted = true;
+		}
 
 	signals:
 		void progress(int step);
@@ -30,6 +42,8 @@ class Solver : public QThread
 	private:
 		Matrix *				_tree;
 		QMap<quint64, Matrix *>	_explored;
+		QMutex *				_mutex;
+		bool					_aborted;
 };
 
 #endif // SOLVER_H

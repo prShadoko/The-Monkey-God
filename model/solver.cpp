@@ -2,13 +2,18 @@
 
 Solver::Solver(qint8 const dimension, qint8 const rotationSize) :
 	QThread(NULL),
-	_tree(new Matrix(dimension, rotationSize))
+	_tree(new Matrix(dimension, rotationSize)),
+	_mutex(new QMutex())
 {
+	QMutexLocker locker(_mutex);
+	_aborted = false;
 }
 
 Solver::~Solver()
 {
+	abort();
 	delete _tree;
+	delete _mutex;
 }
 
 void Solver::run()
@@ -20,7 +25,7 @@ void Solver::run()
 	Matrix * child = NULL;
 	qint8 n = _tree->getDimension() - _tree->getRotationSize() + static_cast<qint8>(1);
 
-	while(!queue.isEmpty())
+	while(!queue.isEmpty() && !isAborted())
 	{
 		matrix = queue.dequeue();
 		if(!_explored.contains(matrix->getHash()))
