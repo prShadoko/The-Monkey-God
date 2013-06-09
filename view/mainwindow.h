@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QProgressBar>
+#include <QSpinBox>
 #include <QThread>
 #include <model/solver.h>
 
@@ -21,11 +22,15 @@ class MainWindow : public QMainWindow
 	private slots:
 		void on_pushButton_buildTree_clicked();
 		void buildTreeFinished();
+		void checkMatrix(int);
+
+		void on_pushButton_resolve_clicked();
 
 	private:
 		Ui::MainWindow *	_ui;
 		Solver *			_solver;
 		QProgressBar *		_progressBar;
+		QList<QSpinBox *>	_spinBoxes;
 };
 
 #endif // MAINWINDOW_H

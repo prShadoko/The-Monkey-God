@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>The-Monkey-God.png</file>
+    </qresource>
+</RCC>

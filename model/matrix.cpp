@@ -3,9 +3,9 @@
 Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 	_dimension(dimension),
 	_rotationSize(rotationSize),
-	_cells(new CellId[dimension*dimension])
+	_cells(new Cell[dimension*dimension])
 {
-	for(CellId cell=0; cell<dimension*dimension; ++cell)
+	for(Cell cell=0; cell<dimension*dimension; ++cell)
 	{
 		_cells[cell] = cell;
 	}
@@ -15,10 +15,10 @@ Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 Matrix::Matrix(Matrix const * const matrix, Rotation rotation) :
 	_dimension(matrix->getDimension()),
 	_rotationSize(matrix->getRotationSize()),
-	_cells(new CellId[matrix->getDimension() * matrix->getDimension()])
+	_cells(new Cell[matrix->getDimension() * matrix->getDimension()])
 {
-	CellId const * cells = matrix->getCells();
-	for(CellId cell=0; cell<matrix->getDimension()*matrix->getDimension(); ++cell)
+	Cell const * cells = matrix->getCells();
+	for(Cell cell=0; cell<matrix->getDimension()*matrix->getDimension(); ++cell)
 	{
 		_cells[cell] = cells[cell];
 	}
@@ -29,11 +29,10 @@ Matrix::Matrix(Matrix const * const matrix, Rotation rotation) :
 Matrix::~Matrix()
 {
 //	delete[] _cells;
-	Matrix * del;
-	foreach(del, _children)
-	{
-		delete del;
-	}
+//	foreach(Matrix * del, _children)
+//	{
+//		delete del;
+//	}
 }
 
 bool Matrix::operator==(Matrix const & other) const
@@ -41,14 +40,26 @@ bool Matrix::operator==(Matrix const & other) const
 	return other.getHash() == _hash;
 }
 
+HashKey Matrix::hash(Cell const * cells, qint8 const dimension)
+{
+	HashKey h = 0;
+	qint8 n = dimension * dimension - 1;
+	for(Cell i=0; i<n; ++i)
+	{
+		h += qPow(n, i) * cells[i];
+	}
+	return h;
+}
+
+
 void Matrix::rotate(Rotation rotation)
 {
-	CellId topLeftCell = rotation.first;
+	Cell topLeftCell = rotation.first;
 	Direction direction = rotation.second;
 	qint8 increment[4] = {static_cast<qint8>(1), static_cast<qint8>(_dimension), static_cast<qint8>(-1), static_cast<qint8>(-_dimension)};
-	CellId tmp = _cells[topLeftCell];
-	CellId previousCell;
-	CellId cell = topLeftCell;
+	Cell tmp = _cells[topLeftCell];
+	Cell previousCell;
+	Cell cell = topLeftCell;
 
 	switch(direction){
 		case CW:
@@ -79,20 +90,21 @@ void Matrix::rotate(Rotation rotation)
 }
 
 void Matrix::hash()
-{ // Max value = 50625 --> 16 bits
-	_hash = 0;
-	qint8 n = _dimension * _dimension;
-	for(CellId i=0; i<n; ++i)
-	{
-		_hash += qPow(n, i) * _cells[i];
-	}
+{
+	_hash = Matrix::hash(_cells, _dimension);
 }
 
-void Matrix::debug() const
+QString Matrix::toString() const
 {
-	qDebug() << _hash;
-	for(CellId c=0; c<_dimension*_dimension; ++c)
+	QString s;
+	for(qint8 i=0; i<_dimension; ++i)
 	{
-		qDebug() << _cells[c];
+		for(qint8 j=0; j<_dimension; ++j)
+		{
+			s += QString::number(_cells[j + i * _dimension]) + " ";
+		}
+		s.chop(1);
+		s += "\n";
 	}
+	return s;
 }

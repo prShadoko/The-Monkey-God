@@ -17,11 +17,14 @@ class Solver : public QThread
 		static quint32 const NB_MATRICES = 362880;
 
 		//--- Constructor & destructor ---//
-		explicit Solver(qint8 const dimension, qint8 const rotationSize);
+		explicit Solver(qint8 const dimension = 3, qint8 const rotationSize = 2);
 		~Solver();
 
 		//--- Accessors ---//
-		inline Matrix const *	getTree() const { return _tree; }
+		inline qint8			getDimension()				const { return _tree->getDimension(); }
+		inline Matrix const *	getTree()					const { return _tree; }
+		inline Matrix const *	getNode(HashKey h)			const { return _findNode.value(h); }
+		inline quint64			getSolvableMatricesCount()	const { return _findNode.count(); }
 		inline bool				isAborted() {
 			QMutexLocker locker(_mutex);
 			return _aborted;
@@ -41,7 +44,8 @@ class Solver : public QThread
 
 	private:
 		Matrix *				_tree;
-		QMap<quint64, Matrix *>	_explored;
+		QMap<HashKey, Matrix *>	_explored;
+		QMap<HashKey, Matrix *>	_findNode;
 		QMutex *				_mutex;
 		bool					_aborted;
 };

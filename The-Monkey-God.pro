@@ -22,3 +22,6 @@ HEADERS		+=	model/matrix.h \
     model/solver.h
 
 FORMS		+=	view/mainwindow.ui
+
+RESOURCES += \
+    resources.qrc

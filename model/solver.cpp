@@ -35,11 +35,12 @@ void Solver::run()
 //			qDebug() << "matrix";
 //			matrix->debug();
 			_explored.insert(matrix->getHash(), matrix);
+			_findNode.insert(matrix->getHash(), matrix);
 			for(qint8 i=0; i<n; ++i)
 			{
 				for(qint8 j=0; j<n; ++j)
 				{
-					CellId topLeftCell = j + i * matrix->getDimension();
+					Cell topLeftCell = j + i * matrix->getDimension();
 					Rotation rotation(topLeftCell, CW);
 					child = new Matrix(matrix, rotation);
 					if(!_explored.contains(child->getHash()))
