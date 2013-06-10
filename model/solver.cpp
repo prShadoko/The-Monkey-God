@@ -3,10 +3,15 @@
 Solver::Solver(qint8 const dimension, qint8 const rotationSize) :
 	QThread(NULL),
 	_tree(new Matrix(dimension, rotationSize)),
-	_mutex(new QMutex())
+	_mutex(new QMutex()),
+	_possibleMatricesCount(1)
 {
 	QMutexLocker locker(_mutex);
 	_aborted = false;
+	for(qint8 i=dimension*dimension; i>1; --i)
+	{
+		_possibleMatricesCount *= i;
+	}
 }
 
 Solver::~Solver()
@@ -35,7 +40,6 @@ void Solver::run()
 //			qDebug() << "matrix";
 //			matrix->debug();
 			_explored.insert(matrix->getHash(), matrix);
-			_findNode.insert(matrix->getHash(), matrix);
 			for(qint8 i=0; i<n; ++i)
 			{
 				for(qint8 j=0; j<n; ++j)

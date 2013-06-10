@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget * parent) :
 {
 	_ui->setupUi(this);
 	_progressBar->setMinimum(0);
-	_progressBar->setMaximum(Solver::NB_MATRICES);
 	_ui->statusbar->addPermanentWidget(_progressBar);
 	_progressBar->setVisible(false);
 
@@ -39,6 +38,7 @@ void MainWindow::on_pushButton_buildTree_clicked()
 {
 	_ui->pushButton_buildTree->setEnabled(false);
 	_solver = new Solver(_ui->spinBox_matrixSize->value(), _ui->spinBox_matrixSize->value()-1);
+	_progressBar->setMaximum(_solver->getPossibleMatricesCount());
 	_progressBar->setVisible(true);
 	connect(_solver, SIGNAL(progress(int)), _progressBar, SLOT(setValue(int)));
 	connect(_solver, SIGNAL(finished()), this, SLOT(buildTreeFinished()));
@@ -53,15 +53,9 @@ void MainWindow::buildTreeFinished()
 	_ui->statusbar->showMessage(tr("Building tree finished"));
 
 	QString result;
-	qint8 nb_cells = _solver->getDimension() * _solver->getDimension();
-	quint64 possible_matrices = 1;
-	for(qint8 i=nb_cells; i>1; --i)
-	{
-		possible_matrices *= i;
-	}
-	result += tr("Possible matrices : ") + QString::number(nb_cells) + "! = " + QString::number(possible_matrices) + "\n";
+	result += tr("Possible matrices : ") + QString::number(_solver->getPossibleMatricesCount()) + "\n";
 	result += tr("Solvable matrices : ") + QString::number(_solver->getSolvableMatricesCount()) + "\n";
-	result += tr("Unsolvable matrices : ") + QString::number(possible_matrices - _solver->getSolvableMatricesCount()) + "\n";
+	result += tr("Unsolvable matrices : ") + QString::number(_solver->getPossibleMatricesCount() - _solver->getSolvableMatricesCount()) + "\n";
 	result += tr("Max. step count to solve : ");//TODO
 	_ui->textEdit->setText(result);
 	checkMatrix(0);

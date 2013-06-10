@@ -287,6 +287,21 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>spinBox_matrixSize</tabstop>
+  <tabstop>pushButton_buildTree</tabstop>
+  <tabstop>spinBox_1</tabstop>
+  <tabstop>spinBox_2</tabstop>
+  <tabstop>spinBox_3</tabstop>
+  <tabstop>spinBox_4</tabstop>
+  <tabstop>spinBox_5</tabstop>
+  <tabstop>spinBox_6</tabstop>
+  <tabstop>spinBox_7</tabstop>
+  <tabstop>spinBox_8</tabstop>
+  <tabstop>spinBox_9</tabstop>
+  <tabstop>pushButton_resolve</tabstop>
+  <tabstop>textEdit</tabstop>
+ </tabstops>
  <resources>
   <include location="../resources.qrc"/>
  </resources>

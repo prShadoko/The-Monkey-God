@@ -43,8 +43,8 @@ bool Matrix::operator==(Matrix const & other) const
 HashKey Matrix::hash(Cell const * cells, qint8 const dimension)
 {
 	HashKey h = 0;
-	qint8 n = dimension * dimension - 1;
-	for(Cell i=0; i<n; ++i)
+	qint8 n = dimension * dimension;
+	for(Cell i=0; i<n-1; ++i)
 	{
 		h += qPow(n, i) * cells[i];
 	}
@@ -58,7 +58,7 @@ void Matrix::rotate(Rotation rotation)
 	Direction direction = rotation.second;
 	qint8 increment[4] = {static_cast<qint8>(1), static_cast<qint8>(_dimension), static_cast<qint8>(-1), static_cast<qint8>(-_dimension)};
 	Cell tmp = _cells[topLeftCell];
-	Cell previousCell;
+	Cell previousCell = topLeftCell;
 	Cell cell = topLeftCell;
 
 	switch(direction){
