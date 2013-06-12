@@ -1,9 +1,11 @@
 #include "matrix.h"
 
 Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
+	_level(0),
 	_dimension(dimension),
 	_rotationSize(rotationSize),
-	_cells(new Cell[dimension*dimension])
+	_cells(new Cell[dimension*dimension]),
+	_parent(NULL)
 {
 	for(Cell cell=0; cell<dimension*dimension; ++cell)
 	{
@@ -13,6 +15,7 @@ Matrix::Matrix(qint8 const dimension, qint8 const rotationSize) :
 }
 
 Matrix::Matrix(Matrix const * const matrix, Rotation rotation) :
+	_level(matrix->getLevel() + 1),
 	_dimension(matrix->getDimension()),
 	_rotationSize(matrix->getRotationSize()),
 	_cells(new Cell[matrix->getDimension() * matrix->getDimension()])
@@ -28,11 +31,7 @@ Matrix::Matrix(Matrix const * const matrix, Rotation rotation) :
 
 Matrix::~Matrix()
 {
-//	delete[] _cells;
-//	foreach(Matrix * del, _children)
-//	{
-//		delete del;
-//	}
+	delete _cells;
 }
 
 bool Matrix::operator==(Matrix const & other) const
@@ -101,7 +100,7 @@ QString Matrix::toString() const
 	{
 		for(qint8 j=0; j<_dimension; ++j)
 		{
-			s += QString::number(_cells[j + i * _dimension]) + " ";
+			s += QString::number(_cells[j + i * _dimension] + 1) + " ";
 		}
 		s.chop(1);
 		s += "\n";

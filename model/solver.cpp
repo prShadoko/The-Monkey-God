@@ -2,6 +2,7 @@
 
 Solver::Solver(qint8 const dimension, qint8 const rotationSize) :
 	QThread(NULL),
+	_maxLevel(0),
 	_tree(new Matrix(dimension, rotationSize)),
 	_mutex(new QMutex()),
 	_possibleMatricesCount(1)
@@ -17,7 +18,10 @@ Solver::Solver(qint8 const dimension, qint8 const rotationSize) :
 Solver::~Solver()
 {
 	abort();
-	delete _tree;
+	foreach(Matrix * m, _explored)
+	{
+		delete m;
+	}
 	delete _mutex;
 }
 
@@ -40,6 +44,7 @@ void Solver::run()
 //			qDebug() << "matrix";
 //			matrix->debug();
 			_explored.insert(matrix->getHash(), matrix);
+			_maxLevel = qMax(_maxLevel, matrix->getLevel());
 			for(qint8 i=0; i<n; ++i)
 			{
 				for(qint8 j=0; j<n; ++j)

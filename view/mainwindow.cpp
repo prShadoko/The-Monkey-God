@@ -21,11 +21,6 @@ MainWindow::MainWindow(QWidget * parent) :
 			   << _ui->spinBox_7
 			   << _ui->spinBox_8
 			   << _ui->spinBox_9;
-
-	foreach(QSpinBox * sb, _spinBoxes)
-	{
-		connect(sb, SIGNAL(valueChanged(int)), this, SLOT(checkMatrix(int)));
-	}
 }
 
 MainWindow::~MainWindow()
@@ -48,44 +43,15 @@ void MainWindow::on_pushButton_buildTree_clicked()
 void MainWindow::buildTreeFinished()
 {
 	_progressBar->setVisible(false);
-//	_ui->pushButton_buildTree->setEnabled(true);
 	_ui->pushButton_resolve->setEnabled(true);
 	_ui->statusbar->showMessage(tr("Building tree finished"));
 
 	QString result;
-	result += tr("Possible matrices : ") + QString::number(_solver->getPossibleMatricesCount()) + "\n";
-	result += tr("Solvable matrices : ") + QString::number(_solver->getSolvableMatricesCount()) + "\n";
-	result += tr("Unsolvable matrices : ") + QString::number(_solver->getPossibleMatricesCount() - _solver->getSolvableMatricesCount()) + "\n";
-	result += tr("Max. step count to solve : ");//TODO
+	result += tr("Possible matrices :\t\t") + QString::number(_solver->getPossibleMatricesCount()) + "\n";
+	result += tr("Solvable matrices :\t\t") + QString::number(_solver->getSolvableMatricesCount()) + "\n";
+	result += tr("Unsolvable matrices :\t\t") + QString::number(_solver->getPossibleMatricesCount() - _solver->getSolvableMatricesCount()) + "\n";
+	result += tr("Max. step count to solve :\t") + QString::number(_solver->getMaxLevel());
 	_ui->textEdit->setText(result);
-	checkMatrix(0);
-}
-
-void MainWindow::checkMatrix(int)
-{
-	/*
-	QMap<qint8, QSpinBox *> checked;
-	QList<qint8>  marked;
-	foreach(QSpinBox * sb, _spinBoxes)
-	{
-		qint8 v = static_cast<qin8>(sb->value());
-		if(checked.contains(v))
-		{
-			marked << v;
-		}
-		checked.insertMulti(v, sb);
-	}
-	foreach(qint8 v, marked)
-	{
-		QList<QSpinBox *> m = checked.values(v);
-		foreach(QSpinBox * sb, m)
-		{
-			QPalette palette = sb->palette();
-			palette.setColor(QPalette::Background, Qt::red);
-			sb->setPalette();
-		}
-	}
-	//*/
 }
 
 void MainWindow::on_pushButton_resolve_clicked()
@@ -98,18 +64,31 @@ void MainWindow::on_pushButton_resolve_clicked()
 		cells[i] = _spinBoxes[i]->value() - 1;
 	}
 	Matrix const * m = _solver->getNode(Matrix::hash(cells));
-	qint8 stepCount = -1;
 	delete[] cells;
 
 	QString s;
-	while(m != NULL)
+	if(m == NULL)
 	{
-		s += m->toString() + "\n";
-		m = m->getParent();
-		stepCount++;
+		s += tr("The input matrix is invalid.");
 	}
-	s += tr("Problem solved in %n step(s)", "", stepCount);
-//	s += //TODO: sequence to solve the problem
+	else
+	{
+		qint8 stepCount = 0;
+		s += m->toString() + "\n";
+		while(m->getParent() != NULL)
+		{
+			s += (m->getRotation().first / dim == 0) ? tr("Top") : tr("Bottom");
+			s += "-";
+			s += (m->getRotation().first % dim == 0) ? tr("left") : tr("right");
+			s += " ";
+			s += (m->getRotation().second == CW) ? tr("Clockwise") : tr("Counter-clockwise");
+			s += "\n\n";
+			m = m->getParent();
+			s += m->toString() + "\n";
+			stepCount++;
+		}
+		s += tr("Problem solved in %n step(s)", "", stepCount);
+	}
 
 	_ui->textEdit->setText(s);
 }

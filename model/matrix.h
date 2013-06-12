@@ -22,19 +22,17 @@ class Matrix
 		~Matrix();
 
 		//--- Accessors ---//
+		inline qint8					getLevel()								const { return _level; }
 		inline qint8					getDimension()							const { return _dimension; }
 		inline qint8					getRotationSize()						const { return _rotationSize; }
 		inline Cell const *				getCells()								const { return _cells; }
 		inline Matrix const *			getParent()								const { return _parent; }
 		inline Rotation					getRotation()							const { return _rotation; }
-//		inline QMap<Rotation, Matrix *>	getChildren()							const { return _children; }
-//		inline Matrix const *			getChild(Rotation r)					const { return _children.value(r, NULL); }
 		inline HashKey					getHash()								const { return _hash; }
 
 		inline void						setParent(Matrix * parent)				{ _parent = parent; }
 		inline void						setRotation(Rotation rotation)			{ _rotation = rotation; }
 		inline void						addChild(Rotation r, Matrix * child)	{
-//			_children.insert(r, child);
 			child->setParent(this);
 			child->setRotation(Rotation(r.first, static_cast<Direction>(-r.second)));
 		}
@@ -49,12 +47,12 @@ class Matrix
 		void hash();
 
 		//--- Members ---//
+		qint8						_level;
 		qint8						_dimension;
 		qint8						_rotationSize;
 		Cell *						_cells;
 		Matrix *					_parent;
 		Rotation					_rotation;
-//		QMap<Rotation, Matrix *>	_children;
 		HashKey						_hash;
 };
 

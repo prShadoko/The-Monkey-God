@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow
 	private slots:
 		void on_pushButton_buildTree_clicked();
 		void buildTreeFinished();
-		void checkMatrix(int);
 
 		void on_pushButton_resolve_clicked();
 
