@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow
 	private slots:
 		void on_pushButton_buildTree_clicked();
 		void buildTreeFinished();
-
+		void on_pushButton_randomize_clicked();
 		void on_pushButton_resolve_clicked();
 
 	private:

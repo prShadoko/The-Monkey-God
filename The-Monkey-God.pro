@@ -4,26 +4,23 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT			+=	core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = The-Monkey-God
-TEMPLATE = app
+TARGET		=	The-Monkey-God
+TEMPLATE	=	app
 
 
 SOURCES		+=	main.cpp\
 				model/matrix.cpp \
 				view/mainwindow.cpp \
-    model/solver.cpp \
-    view/matrixwidget.cpp
+				model/solver.cpp
 
 HEADERS		+=	model/matrix.h \
 				view/mainwindow.h \
-    model/solver.h \
-    view/matrixwidget.h
+				model/solver.h
 
 FORMS		+=	view/mainwindow.ui
 
-RESOURCES += \
-    resources.qrc
+RESOURCES	+=	resources.qrc

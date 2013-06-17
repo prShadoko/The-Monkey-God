@@ -32,6 +32,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_buildTree_clicked()
 {
 	_ui->pushButton_buildTree->setEnabled(false);
+	_ui->pushButton_randomize->setEnabled(true);
 	_solver = new Solver(_ui->spinBox_matrixSize->value(), _ui->spinBox_matrixSize->value()-1);
 	_progressBar->setMaximum(_solver->getPossibleMatricesCount());
 	_progressBar->setVisible(true);
@@ -91,4 +92,17 @@ void MainWindow::on_pushButton_resolve_clicked()
 	}
 
 	_ui->textEdit->setText(s);
+}
+
+void MainWindow::on_pushButton_randomize_clicked()
+{
+	QList<qint8> availableValues;
+	for(qint8 i=0; i<_solver->getDimension()*_solver->getDimension(); ++i)
+	{
+		availableValues.append(i);
+	}
+	foreach(QSpinBox * sb, _spinBoxes)
+	{
+		sb->setValue(availableValues.takeAt(qrand() % availableValues.count()) + 1);
+	}
 }
