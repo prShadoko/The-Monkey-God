@@ -1,8 +1,10 @@
 #include <view/mainwindow.h>
 #include <QApplication>
+#include <QTime>
 
 int main(int argc, char *argv[])
 {
+	qsrand(QTime::currentTime().msec());
 	QApplication a(argc, argv);
 	MainWindow w;
 	w.show();

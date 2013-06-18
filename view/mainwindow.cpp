@@ -54,11 +54,17 @@ void MainWindow::on_pushButton_resolve_clicked()
 	qint8 dim = _solver->getDimension();
 	qint8 nb_cells = dim * dim - 1;
 	Cell * cells = new Cell[nb_cells];
-	for(qint8 i=0; i<nb_cells; ++i)
+	Matrix const * m = NULL;
+	bool valid9th = true;
+	for(qint8 i=0; i<nb_cells && valid9th; ++i)
 	{
 		cells[i] = _spinBoxes[i]->value() - 1;
+		valid9th = (_spinBoxes[i]->value() != _spinBoxes[nb_cells]->value());
 	}
-	Matrix const * m = _solver->getNode(Matrix::hash(cells));
+	if(valid9th)
+	{
+		m = _solver->getNode(Matrix::hash(cells));
+	}
 	delete[] cells;
 
 	QString s;

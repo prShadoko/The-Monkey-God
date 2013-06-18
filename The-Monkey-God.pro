@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET		=	The-Monkey-God
 TEMPLATE	=	app
 
-
+######################################################## Fichiers #######################################################
 SOURCES		+=	main.cpp\
 				model/matrix.cpp \
 				view/mainwindow.cpp \
@@ -24,3 +24,12 @@ HEADERS		+=	model/matrix.h \
 FORMS		+=	view/mainwindow.ui
 
 RESOURCES	+=	resources.qrc
+
+
+################################################ Paramètres compilateur #################################################
+QMAKE_CXXFLAGS				+=	-Wall -Wold-style-cast -Wredundant-decls -Winit-self -Wundef -Winline
+QMAKE_CXXFLAGS_RELEASE		+=	-O2 -fomit-frame-pointer -s
+
+##################################################### Configuration #####################################################
+CODECFORTR	=	UTF-8
+CODECFORSRC	=	UTF-8
