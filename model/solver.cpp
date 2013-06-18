@@ -41,8 +41,6 @@ void Solver::run()
 		{
 			++step;
 			emit progress(step);
-//			qDebug() << "matrix";
-//			matrix->debug();
 			_explored.insert(matrix->getHash(), matrix);
 			_maxLevel = qMax(_maxLevel, matrix->getLevel());
 			for(qint8 i=0; i<n; ++i)
@@ -52,25 +50,14 @@ void Solver::run()
 					Cell topLeftCell = j + i * matrix->getDimension();
 					Rotation rotation(topLeftCell, CW);
 					child = new Matrix(matrix, rotation);
-//					if(!_explored.contains(child->getHash()))
-//					{
-						matrix->addChild(rotation, child);
-						queue.enqueue(child);
-
-//						qDebug() << "child CW";
-//						child->debug();
-//					}
+					matrix->addChild(rotation, child);
+					queue.enqueue(child);
 
 					rotation = Rotation(topLeftCell, CCW);
 					child = new Matrix(matrix, rotation);
-//					if(!_explored.contains(child->getHash()))
-//					{
-						matrix->addChild(rotation, child);
-						queue.enqueue(child);
+					matrix->addChild(rotation, child);
+					queue.enqueue(child);
 
-//						qDebug() << "child CCW";
-//						child->debug();
-//					}
 				}
 			}
 		}

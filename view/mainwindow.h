@@ -5,6 +5,7 @@
 #include <QProgressBar>
 #include <QSpinBox>
 #include <QThread>
+
 #include <model/solver.h>
 
 namespace Ui {

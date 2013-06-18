@@ -5,9 +5,8 @@
 #include <QMutexLocker>
 #include <QQueue>
 #include <QThread>
-#include <model/matrix.h>
 
-#include <QtDebug>
+#include <model/matrix.h>
 
 class Solver : public QThread
 {
@@ -15,8 +14,8 @@ class Solver : public QThread
 
 	public:
 		//--- Constructor & destructor ---//
-		explicit Solver(qint8 const dimension = 3, qint8 const rotationSize = 2);
-		~Solver();
+		explicit	Solver(qint8 const dimension = 3, qint8 const rotationSize = 2);
+		virtual		~Solver();
 
 		//--- Accessors ---//
 		inline qint8			getDimension()				const { return _tree->getDimension(); }
@@ -31,7 +30,7 @@ class Solver : public QThread
 		}
 
 	public slots:
-		inline void abort() {
+		inline void				abort() {
 			QMutexLocker locker(_mutex);
 			_aborted = true;
 		}
@@ -43,6 +42,7 @@ class Solver : public QThread
 		void run();
 
 	private:
+		//--- Members ---//
 		qint8					_maxLevel;
 		Matrix *				_tree;
 		QMap<HashKey, Matrix *>	_explored;

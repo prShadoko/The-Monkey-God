@@ -5,8 +5,6 @@
 #include <QPair>
 #include <QtCore/qmath.h>
 
-#include <QtDebug>
-
 enum Direction {CW = 1, CCW = -1};
 
 typedef quint64 HashKey; // Allows 3x3 and 4x4 matrices
@@ -47,13 +45,13 @@ class Matrix
 		void hash();
 
 		//--- Members ---//
-		qint8						_level;
-		qint8						_dimension;
-		qint8						_rotationSize;
-		Cell *						_cells;
-		Matrix *					_parent;
-		Rotation					_rotation;
-		HashKey						_hash;
+		qint8		_level;
+		qint8		_dimension;
+		qint8		_rotationSize;
+		Cell *		_cells;
+		Matrix *	_parent;
+		Rotation	_rotation;
+		HashKey		_hash;
 };
 
 #endif // MATRIX_H
