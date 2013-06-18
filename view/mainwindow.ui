@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>519</width>
-    <height>363</height>
+    <width>585</width>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>The Monkey God</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resources.qrc">
@@ -21,6 +21,11 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QTextEdit" name="textEdit">
+      <property name="font">
+       <font>
+        <family>Courier</family>
+       </font>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -30,16 +35,22 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize">
     <size>
-     <width>180</width>
-     <height>337</height>
+     <width>200</width>
+     <height>417</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>180</width>
-     <height>337</height>
+     <width>200</width>
+     <height>524287</height>
     </size>
    </property>
    <property name="features">
@@ -82,11 +93,27 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimum">
            <number>3</number>
           </property>
           <property name="maximum">
            <number>4</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_matrixSize">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Matrix size :</string>
           </property>
          </widget>
         </item>
@@ -97,13 +124,13 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_matrixSize">
+        <item row="3" column="0" colspan="2">
+         <widget class="QPushButton" name="pushButton_showStats">
           <property name="enabled">
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Matrix size</string>
+           <string>Show stats</string>
           </property>
          </widget>
         </item>
@@ -116,67 +143,13 @@
         <string>Resolve</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="2">
-         <widget class="QSpinBox" name="spinBox_3">
-          <property name="frame">
-           <bool>true</bool>
+        <item row="6" column="0" colspan="3">
+         <widget class="QPushButton" name="pushButton_resolve">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9</number>
-          </property>
-          <property name="value">
-           <number>3</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QSpinBox" name="spinBox_4">
-          <property name="frame">
-           <bool>true</bool>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9</number>
-          </property>
-          <property name="value">
-           <number>4</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="spinBox_8">
-          <property name="frame">
-           <bool>true</bool>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9</number>
-          </property>
-          <property name="value">
-           <number>8</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="spinBox_2">
-          <property name="frame">
-           <bool>true</bool>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9</number>
-          </property>
-          <property name="value">
-           <number>2</number>
+          <property name="text">
+           <string>Resolve</string>
           </property>
          </widget>
         </item>
@@ -196,13 +169,19 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0" colspan="3">
-         <widget class="QPushButton" name="pushButton_resolve">
-          <property name="enabled">
-           <bool>false</bool>
+        <item row="4" column="2">
+         <widget class="QSpinBox" name="spinBox_9">
+          <property name="frame">
+           <bool>true</bool>
           </property>
-          <property name="text">
-           <string>Resolve</string>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+          <property name="value">
+           <number>9</number>
           </property>
          </widget>
         </item>
@@ -222,21 +201,8 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QSpinBox" name="spinBox_1">
-          <property name="frame">
-           <bool>true</bool>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <widget class="QSpinBox" name="spinBox_9">
+        <item row="1" column="2">
+         <widget class="QSpinBox" name="spinBox_3">
           <property name="frame">
            <bool>true</bool>
           </property>
@@ -247,6 +213,61 @@
            <number>9</number>
           </property>
           <property name="value">
+           <number>3</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="3">
+         <widget class="QPushButton" name="pushButton_randomize">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Randomize</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="spinBox_2">
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+          <property name="value">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QSpinBox" name="spinBox_4">
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+          <property name="value">
+           <number>4</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QSpinBox" name="spinBox_1">
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
            <number>9</number>
           </property>
          </widget>
@@ -267,13 +288,19 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0" colspan="3">
-         <widget class="QPushButton" name="pushButton_randomize">
-          <property name="enabled">
-           <bool>false</bool>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="spinBox_8">
+          <property name="frame">
+           <bool>true</bool>
           </property>
-          <property name="text">
-           <string>Randomize</string>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+          <property name="value">
+           <number>8</number>
           </property>
          </widget>
         </item>

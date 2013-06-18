@@ -46,13 +46,7 @@ void MainWindow::buildTreeFinished()
 	_progressBar->setVisible(false);
 	_ui->pushButton_resolve->setEnabled(true);
 	_ui->statusbar->showMessage(tr("Building tree finished"));
-
-	QString result;
-	result += tr("Possible matrices :\t\t") + QString::number(_solver->getPossibleMatricesCount()) + "\n";
-	result += tr("Solvable matrices :\t\t") + QString::number(_solver->getSolvableMatricesCount()) + "\n";
-	result += tr("Unsolvable matrices :\t\t") + QString::number(_solver->getPossibleMatricesCount() - _solver->getSolvableMatricesCount()) + "\n";
-	result += tr("Max. step count to solve :\t") + QString::number(_solver->getMaxLevel());
-	_ui->textEdit->setText(result);
+	_ui->pushButton_showStats->setEnabled(true);
 }
 
 void MainWindow::on_pushButton_resolve_clicked()
@@ -105,4 +99,15 @@ void MainWindow::on_pushButton_randomize_clicked()
 	{
 		sb->setValue(availableValues.takeAt(qrand() % availableValues.count()) + 1);
 	}
+}
+
+
+void MainWindow::on_pushButton_showStats_clicked()
+{
+	QString result;
+	result += tr("Possible matrices :\t") + QString::number(_solver->getPossibleMatricesCount()) + "\n";
+	result += tr("Solvable matrices :\t") + QString::number(_solver->getSolvableMatricesCount()) + "\n";
+	result += tr("Unsolvable matrices :\t") + QString::number(_solver->getPossibleMatricesCount() - _solver->getSolvableMatricesCount()) + "\n";
+	result += tr("Max. step count to solve :\t") + QString::number(_solver->getMaxLevel());
+	_ui->textEdit->setText(result);
 }

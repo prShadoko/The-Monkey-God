@@ -24,6 +24,7 @@ class MainWindow : public QMainWindow
 		void buildTreeFinished();
 		void on_pushButton_randomize_clicked();
 		void on_pushButton_resolve_clicked();
+		void on_pushButton_showStats_clicked();
 
 	private:
 		Ui::MainWindow *	_ui;

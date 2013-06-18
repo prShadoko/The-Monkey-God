@@ -52,25 +52,25 @@ void Solver::run()
 					Cell topLeftCell = j + i * matrix->getDimension();
 					Rotation rotation(topLeftCell, CW);
 					child = new Matrix(matrix, rotation);
-					if(!_explored.contains(child->getHash()))
-					{
+//					if(!_explored.contains(child->getHash()))
+//					{
 						matrix->addChild(rotation, child);
 						queue.enqueue(child);
 
 //						qDebug() << "child CW";
 //						child->debug();
-					}
+//					}
 
 					rotation = Rotation(topLeftCell, CCW);
 					child = new Matrix(matrix, rotation);
-					if(!_explored.contains(child->getHash()))
-					{
+//					if(!_explored.contains(child->getHash()))
+//					{
 						matrix->addChild(rotation, child);
 						queue.enqueue(child);
 
 //						qDebug() << "child CCW";
 //						child->debug();
-					}
+//					}
 				}
 			}
 		}
